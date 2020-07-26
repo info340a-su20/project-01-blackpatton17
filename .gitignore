@@ -1,5 +1,6 @@
 # ignore node dependency files
 node_modules
+.idea
 
 # ignore OS generated files
 .DS_Store
