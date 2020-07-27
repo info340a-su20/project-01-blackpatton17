@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+    background-color: bisque;
+}
+
+#info-wrapper {
+    margin: auto;
+    background: white;
+    width: 60%;
+    text-align: center;
+    padding: 25px 5% 25px 5%;
+}
+
+p, ul {
+    font-family: "Roboto Light";
+   font-size: 13pt;
+}
+
+img {
+    width: 60%;
+    height: auto;
+}
+
+ul {
+    margin: auto;
+    width: 30%;
+}
