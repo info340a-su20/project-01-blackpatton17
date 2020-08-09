@@ -38,28 +38,55 @@
         <div id="side-bar-wrapper">
             <div id="result-filter-wrapper">
                 <div class="result-filter">
-                    <label for="work-time-start">Available Work Time</label>
+                    <label for="work-time-start">Available Work Time: </label>
                     <input type="text" class="work-time" id="work-time-start" name="work-time-start" />
                     <label for="work-time-end">-</label>
                     <input type="text" class="work-time" id="work-time-end" name="work-time-end" />
                 </div>
                 <div class="result-filter">
-                    <label for="test1">filter condition placeholder:</label>
+                    <label for="test1">filter condition placeholder: </label>
                     <input type="checkbox" class="filter-checkbox" id="test1" name="test1" />
                 </div>
                 <div class="result-filter">
-                    <label for="test2">filter condition placeholder:</label>
+                    <label for="test2">filter condition placeholder: </label>
                     <input type="checkbox" class="filter-checkbox" id="test2" name="test2" />
-                </div>
-                <div class="result-filter">
-                    <label for="test3">filter condition placeholder:</label>
-                    <input type="checkbox" class="filter-checkbox" id="test3" name="test3" />
                 </div>
                 <button id="filter-apply">Apply</button>
             </div>
-            <div id="add-new-request-wrapper">
+            <div id="add-new-post-wrapper">
                 <p>Cannot find interested ones?</p>
-                <button id="add-new-request">Post Your Match-up Request</button>
+                <button id="add-new-post">Post Your Match-up Request</button>
+                <form id="new-post-form" class="collapse">
+                    <div class="new-post-input-wrapper">
+                        <label for="new-post-class-title">Class Title: </label>
+                        <input type="text" id="new-post-class-title" name="classTitle"/>
+                    </div>
+                    <div class="new-post-input-wrapper">
+                        <label for="new-post-section">Section: </label>
+                        <input type="text" id="new-post-section" name="section" />
+                    </div>
+                    <div class="new-post-input-wrapper">
+                        <label for="new-post-quiz-section">Quiz Section (Optional, only one): </label>
+                        <input type="text" id="new-post-quiz-section" name="quizSection" />
+                    </div>
+                    <div class="new-post-input-wrapper">
+                        <label for="new-post-name">Name: </label>
+                        <input type="text" id="new-post-name" name="name" />
+                    </div>
+                    <div class="new-post-input-wrapper">
+                        <label for="new-post-class-standing">Class Standing: </label>
+                        <input type="text" id="new-post-class-standing" name="classStanding" />
+                    </div>
+                    <div class="new-post-input-wrapper">
+                        <label for="new-post-major">Major (split by ","): </label>
+                        <input type="text" id="new-post-major" name="major" />
+                    </div>
+                    <div class="new-post-input-wrapper">
+                        <label for="new-post-email">Email: </label>
+                        <input type="text" id="new-post-email" name="email"/>
+                    </div>
+                    <input type="submit" value="Post" id="post-new-post" />
+                </form>
             </div>
         </div>
         <div id="search-result-wrapper"></div>

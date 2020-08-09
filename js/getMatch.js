@@ -1,6 +1,14 @@
 "use strict";
 
-const FAKE_SEARCH_DATA = {
+const state = {
+  search: {
+    classTitle: "",
+    section: "",
+    quizSection: "",
+  },
+  newPost: {
+    
+  },
   result: [
     {
       id: 0,
@@ -10,28 +18,24 @@ const FAKE_SEARCH_DATA = {
       avatar: "../img/avatar-placeholder.png"
     },
     {
-      id: 1,
       name: "Joe Alan",
       academicStanding: "Junior",
       major: ["INFO", "CSE"],
       avatar: "../img/avatar-placeholder.png"
     },
     {
-      id: 2,
+      name: "Joe",
+      academicStanding: "Junior",
+      major: ["INFO", "CSE"],
+      avatar: "../img/avatar-placeholder.png"
+    },
+    {
       name: "Joe Alan",
       academicStanding: "Junior",
       major: ["INFO", "CSE"],
       avatar: "../img/avatar-placeholder.png"
     },
     {
-      id: 3,
-      name: "Joe Alan",
-      academicStanding: "Junior",
-      major: ["INFO", "CSE"],
-      avatar: "../img/avatar-placeholder.png"
-    },
-    {
-      id: 4,
       name: "Joe Alan",
       academicStanding: "Junior",
       major: ["INFO", "CSE"],
@@ -43,16 +47,24 @@ const FAKE_SEARCH_DATA = {
 window.addEventListener("load", () => init());
 
 const init = () => {
+  bindInput();
   renderSearchResult();
+  qs('#add-new-post').addEventListener("click", () => openNewPostForm());
+  qs('#new-post-form').addEventListener("submit", (e) => handleNewPost(e));
   // qs('#submit-search').addEventListener("click", updateResearch);
 };
 
-const updateResearch = () => {
-  qs();
+const bindInput = () => {
+
+};
+
+const handleNewPost = (e) => {
+  e.preventDefault();
+  console.log(e.target.dataset);
 };
 
 const renderSearchResult = () => {
-  for (let data of FAKE_SEARCH_DATA.result) {
+  for (let data of state.result) {
     let resultDiv = crNewEl('div');
     resultDiv.classList.add('search-result');
 
@@ -75,7 +87,7 @@ const renderSearchResult = () => {
 
     let resultMajor = crNewEl('p');
     let majorContent = data.major.length === 1 ? data.major[0] : data.major.reduce(((previousValue, currentValue) => {
-      return previousValue + " & " + currentValue;
+      return previousValue + ", " + currentValue;
     }))
     resultMajor.textContent = "Major: " + majorContent;
     resultSpecInfo.appendChild(resultMajor);
@@ -91,10 +103,16 @@ const renderSearchResult = () => {
 
     qs("#search-result-wrapper").appendChild(resultDiv);
   }
+};
+
+const openNewPostForm = () => {
+  qs('#new-post-form').classList.remove('collapse');
+  qs('#add-new-post').classList.add('collapse');
+  qs('#add-new-post-wrapper p').classList.add('collapse');
 }
 
 const handleSendMsg = (data) => {
-  console.log("foo" + data.name);
+  console.log("foo " + data.name);
 };
 
 /****************** helper functions *********************/
