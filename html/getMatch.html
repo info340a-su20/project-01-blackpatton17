@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../css/style.css"/>
 </head>
 <body>
+    <script src="../js/getMatch.js" ></script>
     <nav>
         <a href="landing.html">LOGO</a>
         <div id="link-tab-wrapper">
@@ -30,30 +31,36 @@
             <input type="text" class="search-condition-input" name="section" placeholder="A"/>
             <p class="search-condition-title">Quiz/Lab Section (Optional):</p>
             <input type="text" class="search-condition-input" name="section" placeholder="A"/>
-            <button id="submit-button">Search</button>
+            <button id="submit-search">Search</button>
         </form>
     </div>
     <div id="content-wrapper">
-        <div id="result-filter-wrapper">
-            <div class="result-filter">
-                <p>Available Work Time</p>
-                <input type="text" class="work-time" name="work-time-start" />
-                <p>-</p>
-                <input type="text" class="work-time" name="work-time-end" />
+        <div id="side-bar-wrapper">
+            <div id="result-filter-wrapper">
+                <div class="result-filter">
+                    <p>Available Work Time</p>
+                    <input type="text" class="work-time" name="work-time-start" />
+                    <p>-</p>
+                    <input type="text" class="work-time" name="work-time-end" />
+                </div>
+                <div class="result-filter">
+                    <p>filter condition placeholder:</p>
+                    <input type="checkbox" class="work-time" name="work-time-end" />
+                </div>
+                <div class="result-filter">
+                    <p>filter condition placeholder:</p>
+                    <input type="checkbox" class="work-time" name="work-time-end" />
+                </div>
+                <div class="result-filter">
+                    <p>filter condition placeholder:</p>
+                    <input type="checkbox" class="work-time" name="work-time-end" />
+                </div>
+                <button id="filter-apply">Apply</button>
             </div>
-            <div class="result-filter">
-                <p>filter condition placeholder:</p>
-                <input type="checkbox" class="work-time" name="work-time-end" />
+            <div id="add-new-request-wrapper">
+                <p>Cannot find interested ones?</p>
+                <button id="add-new-request">Post Your Match-up Request</button>
             </div>
-            <div class="result-filter">
-                <p>filter condition placeholder:</p>
-                <input type="checkbox" class="work-time" name="work-time-end" />
-            </div>
-            <div class="result-filter">
-                <p>filter condition placeholder:</p>
-                <input type="checkbox" class="work-time" name="work-time-end" />
-            </div>
-            <button>Apply</button>
         </div>
         <div id="search-result-wrapper">
             <div class="search-result">
