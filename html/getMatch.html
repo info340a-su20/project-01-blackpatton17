@@ -25,12 +25,12 @@
     <div id="search-bar">
         <h2>Seeking:</h2>
         <form class="search-condition" action="#">
-            <p class="search-condition-title">Class Title</p>
-            <input type="text" class="search-condition-input" name="class-title" placeholder="Info 340"/>
-            <p class="search-condition-title">Section</p>
-            <input type="text" class="search-condition-input" name="section" placeholder="A"/>
-            <p class="search-condition-title">Quiz/Lab Section (Optional):</p>
-            <input type="text" class="search-condition-input" name="section" placeholder="A"/>
+            <label for="class-title" class="search-condition-title">Class Title: </label>
+            <input type="text" class="search-condition-input" id="class-title" name="class-title" placeholder="Info 340"/>
+            <label for="section" class="search-condition-title">Section: </label>
+            <input type="text" class="search-condition-input" id="section" name="section" placeholder="A"/>
+            <label for="quiz-section" class="search-condition-title">Quiz/Lab Section (Optional):</label>
+            <input type="text" class="search-condition-input" id="quiz-section" name="quiz-section" placeholder="A"/>
             <button id="submit-search">Search</button>
         </form>
     </div>
@@ -45,15 +45,15 @@
                 </div>
                 <div class="result-filter">
                     <p>filter condition placeholder:</p>
-                    <input type="checkbox" class="work-time" name="work-time-end" />
+                    <input type="checkbox" class="work-time" name="test1" />
                 </div>
                 <div class="result-filter">
                     <p>filter condition placeholder:</p>
-                    <input type="checkbox" class="work-time" name="work-time-end" />
+                    <input type="checkbox" class="work-time" name="test2" />
                 </div>
                 <div class="result-filter">
                     <p>filter condition placeholder:</p>
-                    <input type="checkbox" class="work-time" name="work-time-end" />
+                    <input type="checkbox" class="work-time" name="test3" />
                 </div>
                 <button id="filter-apply">Apply</button>
             </div>
@@ -62,53 +62,7 @@
                 <button id="add-new-request">Post Your Match-up Request</button>
             </div>
         </div>
-        <div id="search-result-wrapper">
-            <div class="search-result">
-                <img src="../img/avatar-placeholder.png" alt="Joe Alan" class="result-avatar" />
-                <div class="search-result-info">
-                    <p>Name: Joe Alan</p>
-                    <p>Academic Standing: Junior</p>
-                    <p>Major: INFO & CSE</p>
-                </div>
-                <button class="send-massage">Send a Message</button>
-            </div>
-            <div class="search-result">
-                <img src="../img/avatar-placeholder.png" alt="Joe Alan" class="result-avatar" />
-                <div class="search-result-info">
-                    <p>Name: Joe Alan</p>
-                    <p>Academic Standing: Junior</p>
-                    <p>Major: INFO & CSE</p>
-                </div>
-                <button class="send-massage">Send a Message</button>
-            </div>
-            <div class="search-result">
-                <img src="../img/avatar-placeholder.png" alt="Joe Alan" class="result-avatar" />
-                <div class="search-result-info">
-                    <p>Name: Joe Alan</p>
-                    <p>Academic Standing: Junior</p>
-                    <p>Major: INFO & CSE</p>
-                </div>
-                <button class="send-massage">Send a Message</button>
-            </div>
-            <div class="search-result">
-                <img src="../img/avatar-placeholder.png" alt="Joe Alan" class="result-avatar" />
-                <div class="search-result-info">
-                    <p>Name: Joe Alan</p>
-                    <p>Academic Standing: Junior</p>
-                    <p>Major: INFO & CSE</p>
-                </div>
-                <button class="send-massage">Send a Message</button>
-            </div>
-            <div class="search-result">
-                <img src="../img/avatar-placeholder.png" alt="Joe Alan" class="result-avatar" />
-                <div class="search-result-info">
-                    <p>Name: Joe Alan</p>
-                    <p>Academic Standing: Junior</p>
-                    <p>Major: INFO & CSE</p>
-                </div>
-                <button class="send-massage">Send a Message</button>
-            </div>
-        </div>
+        <div id="search-result-wrapper"></div>
     </div>
 </body>
 </html>
