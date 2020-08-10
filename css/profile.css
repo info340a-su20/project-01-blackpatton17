@@ -2,29 +2,65 @@
     background-image: url("../img/profile_header.jpg");
 }
 
-.divide-section {
-    margin: 60px;
-    display: grid;
-    grid-template-columns: 52% 40%;
-    column-gap: 5%;
-}
-
-.overall-title {
-    height: 70%;
-    background-color: #4b2e83;
-    color: white;
-}
-
-.random-text {
+#simple-info-wrapper {
     width: 100%;
-    font-size: 7.5pt;
-    background-color: grey;
-    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    border-bottom: solid 1px grey;
 }
 
-.intruduce-text{
-    font-size: 6.5pt;
-    margin: 10px 5px;
-    display: grid;
+
+@media (min-width: 996px) {
+    main {
+        display: flex;
+    }
+
+    #simple-info-wrapper {
+        width: 30%;
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+        margin-right: 20px;
+        border-bottom: 0;
+        border-right: solid 1px grey;
+    }
+
+    #content-wrapper {
+        width: 60%;
+    }
 }
 
+#avatar {
+    width: 100px;
+    height: auto;
+    border-radius: 50%;
+}
+
+#class-card-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.class-card:hover {
+    opacity: 0.8;
+}
+
+.class-card {
+    width: 80%;
+    max-width: 150px;
+    height: 150px;
+    margin: 1rem;
+    background-color: #b1bbc2;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 11.5pt;
+    font-weight: bold;
+}

@@ -2,6 +2,18 @@
     background-image: url("../img/header.jpg");
 }
 
+button {
+    color: white;
+    border: solid 1px transparent;
+    background-color: #e3e6e9;
+}
+
+button:hover {
+    color: #4b2e83;
+    border: solid 1px #4b2e83;
+    background-color: white;
+}
+
 h2 {
     color: #4b2e83;
     margin: 0;
@@ -9,7 +21,6 @@ h2 {
     font-weight: bold;
     font-size: 18pt;
 }
-/* search bar start*/
 
 #search-bar {
     margin-top: 10px;
@@ -77,14 +88,9 @@ h2 {
     .search-condition-input {
         width: 20%;
         height: 30px;
-    }
-
-    .search-condition-input {
         margin-bottom: 0;
     }
 }
-
-/* search bar end*/
 
 #content-wrapper {
     width: 90%;
@@ -238,6 +244,7 @@ h2 {
         padding: 1rem;
         display: flex;
         flex-direction: row;
+        flex-basis: 0;
         justify-content: space-around;
         align-items: center;
     }
