@@ -6,6 +6,7 @@
     <meta name="description" content="Class partner match up">
     <title>Match-Up</title>
     <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="../css/getMatch.css"/>
 </head>
 <body>
     <script src="../js/getMatch.js" ></script>
@@ -19,77 +20,83 @@
         </div>
     </nav>
     <div id="page-header">
-        <h1>Get Matched</h1>
-        <p>Find your new partner here</p>
-    </div>
-    <div id="search-bar">
-        <h2>Seeking:</h2>
-        <form class="search-condition" action="#">
-            <label for="class-title" class="search-condition-title">Class Title: </label>
-            <input type="text" class="search-condition-input" id="class-title" name="class-title" placeholder="Info 340"/>
-            <label for="section" class="search-condition-title">Section: </label>
-            <input type="text" class="search-condition-input" id="section" name="section" placeholder="A"/>
-            <label for="quiz-section" class="search-condition-title">Quiz/Lab Section (Optional):</label>
-            <input type="text" class="search-condition-input" id="quiz-section" name="quiz-section" placeholder="A"/>
-            <button id="submit-search">Search</button>
-        </form>
-    </div>
-    <div id="content-wrapper">
-        <div id="side-bar-wrapper">
-            <div id="result-filter-wrapper">
-                <div class="result-filter">
-                    <label for="work-time-start">Available Work Time: </label>
-                    <input type="text" class="work-time" id="work-time-start" name="work-time-start" />
-                    <label for="work-time-end">-</label>
-                    <input type="text" class="work-time" id="work-time-end" name="work-time-end" />
-                </div>
-                <div class="result-filter">
-                    <label for="test1">filter condition placeholder: </label>
-                    <input type="checkbox" class="filter-checkbox" id="test1" name="test1" />
-                </div>
-                <div class="result-filter">
-                    <label for="test2">filter condition placeholder: </label>
-                    <input type="checkbox" class="filter-checkbox" id="test2" name="test2" />
-                </div>
-                <button id="filter-apply">Apply</button>
-            </div>
-            <div id="add-new-post-wrapper">
-                <p>Cannot find interested ones?</p>
-                <button id="add-new-post">Post Your Match-up Request</button>
-                <form id="new-post-form" class="collapse">
-                    <div class="new-post-input-wrapper">
-                        <label for="new-post-class-title">Class Title: </label>
-                        <input type="text" id="new-post-class-title" name="classTitle"/>
-                    </div>
-                    <div class="new-post-input-wrapper">
-                        <label for="new-post-section">Section: </label>
-                        <input type="text" id="new-post-section" name="section" />
-                    </div>
-                    <div class="new-post-input-wrapper">
-                        <label for="new-post-quiz-section">Quiz Section (Optional, only one): </label>
-                        <input type="text" id="new-post-quiz-section" name="quizSection" />
-                    </div>
-                    <div class="new-post-input-wrapper">
-                        <label for="new-post-name">Name: </label>
-                        <input type="text" id="new-post-name" name="name" />
-                    </div>
-                    <div class="new-post-input-wrapper">
-                        <label for="new-post-class-standing">Class Standing: </label>
-                        <input type="text" id="new-post-class-standing" name="classStanding" />
-                    </div>
-                    <div class="new-post-input-wrapper">
-                        <label for="new-post-major">Major (split by ","): </label>
-                        <input type="text" id="new-post-major" name="major" />
-                    </div>
-                    <div class="new-post-input-wrapper">
-                        <label for="new-post-email">Email: </label>
-                        <input type="text" id="new-post-email" name="email"/>
-                    </div>
-                    <input type="submit" value="Post" id="post-new-post" />
-                </form>
-            </div>
+        <div id="header-content">
+            <h1>Get Matched</h1>
+            <p>Find your new partner here</p>
         </div>
-        <div id="search-result-wrapper"></div>
     </div>
+    <main>
+        <div id="search-bar">
+            <h2>Seeking:</h2>
+            <form class="search-condition" action="#">
+                <label for="class-title" class="search-condition-title">Class Title: </label>
+                <input type="text" class="search-condition-input" id="class-title" name="class-title" placeholder="Info340"/>
+                <label for="section" class="search-condition-title">Section: </label>
+                <input type="text" class="search-condition-input" id="section" name="section" placeholder="A"/>
+                <label for="quiz-section" class="search-condition-title">Quiz/Lab Section (Optional):</label>
+                <input type="text" class="search-condition-input" id="quiz-section" name="quiz-section" placeholder="A"/>
+                <input type="submit" value="Search" id="submit-search" />
+            </form>
+        </div>
+        <div id="content-wrapper">
+            <div id="side-bar-wrapper">
+                <div id="result-filter-wrapper">
+                    <div class="result-filter">
+                        <label for="work-time-start">Available Work Time: </label>
+                        <div>
+                            <input placeholder="8:00" type="text" class="work-time" id="work-time-start" name="work-time-start" />
+                            <p aria-label="to">--</p>
+                            <input placeholder="17:00" type="text" class="work-time" id="work-time-end" name="work-time-end" />
+                        </div>
+                    </div>
+                    <div class="result-filter">
+                        <label for="test1">filter condition placeholder: </label>
+                        <input type="checkbox" class="filter-checkbox" id="test1" name="test1" />
+                    </div>
+                    <div class="result-filter">
+                        <label for="test2">filter condition placeholder: </label>
+                        <input type="checkbox" class="filter-checkbox" id="test2" name="test2" />
+                    </div>
+                    <button id="filter-apply">Apply</button>
+                </div>
+                <div id="add-new-post-wrapper">
+                    <p>Cannot find interested ones?</p>
+                    <button id="add-new-post">Post Your Match-up Request</button>
+                    <form id="new-post-form" class="collapse">
+                        <div class="new-post-input-wrapper">
+                            <label for="new-post-class-title">Class Title: </label>
+                            <input type="text" id="new-post-class-title" name="classTitle"/>
+                        </div>
+                        <div class="new-post-input-wrapper">
+                            <label for="new-post-section">Section: </label>
+                            <input type="text" id="new-post-section" name="section" />
+                        </div>
+                        <div class="new-post-input-wrapper">
+                            <label for="new-post-quiz-section">Quiz Section (Optional, only one): </label>
+                            <input type="text" id="new-post-quiz-section" name="quizSection" />
+                        </div>
+                        <div class="new-post-input-wrapper">
+                            <label for="new-post-name">Name: </label>
+                            <input type="text" id="new-post-name" name="name" />
+                        </div>
+                        <div class="new-post-input-wrapper">
+                            <label for="new-post-class-standing">Class Standing: </label>
+                            <input type="text" id="new-post-class-standing" name="classStanding" />
+                        </div>
+                        <div class="new-post-input-wrapper">
+                            <label for="new-post-major">Major (split by ","): </label>
+                            <input type="text" id="new-post-major" name="major" />
+                        </div>
+                        <div class="new-post-input-wrapper">
+                            <label for="new-post-email">Email: </label>
+                            <input type="text" id="new-post-email" name="email"/>
+                        </div>
+                        <input type="submit" value="Post" id="post-new-post" />
+                    </form>
+                </div>
+            </div>
+            <div id="search-result-wrapper"></div>
+        </div>
+    </main>
 </body>
 </html>
