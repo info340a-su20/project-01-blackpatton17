@@ -90,7 +90,7 @@ const handleNewPost = (e) => {
     alert("You have to enter your name!");
   } else if (state.newPost.name.classStanding === 0) {
     alert("You have to enter your name! (e.g.: Junior)");
-  } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(state.newPost.email)) {
+  } else if (!state.newPost.email.indexOf("@") < 0) {
     alert("You have entered an invalid email address!");
   } else {
     state.result[state.newPost.classTitle] = state.result[state.newPost.classTitle] ? [{

@@ -21,7 +21,6 @@ h2 {
     font-weight: bold;
     font-size: 18pt;
 }
-/* search bar start*/
 
 #search-bar {
     margin-top: 10px;
@@ -89,14 +88,9 @@ h2 {
     .search-condition-input {
         width: 20%;
         height: 30px;
-    }
-
-    .search-condition-input {
         margin-bottom: 0;
     }
 }
-
-/* search bar end*/
 
 #content-wrapper {
     width: 90%;
