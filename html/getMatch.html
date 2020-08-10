@@ -35,8 +35,9 @@
                 <input type="text" class="search-condition-input" id="class-title" name="classTitle" placeholder="INFO340"/>
                 <label for="section" class="search-condition-title">Section: </label>
                 <input type="text" class="search-condition-input" id="section" name="section" placeholder="A"/>
-                <label for="quiz-section" class="search-condition-title">Quiz/Lab Section (Optional):</label>
-                <input type="text" class="search-condition-input" id="quiz-section" name="quizSection" placeholder="A"/>
+                <label for="quiz-section" class="search-condition-title">Quiz/Lab Section:</label>
+                <input type="text" class="search-condition-input" id="quiz-section" name="quizSection"
+                       placeholder="Optional"/>
                 <input type="submit" value="Search" id="submit-search" />
             </form>
         </div>
@@ -74,8 +75,8 @@
                             <input type="text" id="new-post-section" name="section" />
                         </div>
                         <div class="new-post-input-wrapper">
-                            <label for="new-post-quiz-section">Quiz Section (Optional, only one): </label>
-                            <input type="text" id="new-post-quiz-section" name="quizSection" />
+                            <label for="new-post-quiz-section">Quiz Section (only one): </label>
+                            <input type="text" id="new-post-quiz-section" placeholder="Optional" name="quizSection" />
                         </div>
                         <div class="new-post-input-wrapper">
                             <label for="new-post-name">Name: </label>
@@ -87,7 +88,7 @@
                         </div>
                         <div class="new-post-input-wrapper">
                             <label for="new-post-major">Major (split by ","): </label>
-                            <input type="text" id="new-post-major" name="major" />
+                            <input type="text" id="new-post-major" placeholder="Optional" name="major" />
                         </div>
                         <div class="new-post-input-wrapper">
                             <label for="new-post-email">Email: </label>

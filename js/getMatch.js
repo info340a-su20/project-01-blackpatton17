@@ -4,7 +4,7 @@ const state = {
   search: {
     classTitle: "INFO340",
     section: "A",
-    quizSection: "A",
+    quizSection: "",
   },
   newPost: {
     classTitle: "",
@@ -75,9 +75,10 @@ const initInput = () => {
   for (let input of addNewPostFormInputs) {
     if (input.type !== 'submit') {
       input.value = state.search[input.name] ? state.search[input.name] : "";
+      state.newPost[input.name] = state.search[input.name] ? state.search[input.name] : "";
       input.addEventListener("input", (e) => {
         state.newPost[e.target.name] = input.name === 'major' ? e.target.value.split(",") : e.target.value;
-      })
+      });
     }
   }
   qs("#new-post-form").addEventListener("submit", e => handleNewPost(e))
@@ -85,12 +86,29 @@ const initInput = () => {
 
 const handleNewPost = (e) => {
   e.preventDefault();
-  state.result[state.search.classTitle] = [{
-    name: state.newPost.name,
-    academicStanding: state.newPost.classStanding,
-    major: state.newPost.major,
-    avatar: "../img/avatar-placeholder.png"
-  }, ...state.result[state.search.classTitle]];
+  if (state.newPost.name.length === 0) {
+    alert("You have to enter your name!");
+  } else if (state.newPost.name.classStanding === 0) {
+    alert("You have to enter your name! (e.g.: Junior)");
+  } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(state.newPost.email)) {
+    alert("You have entered an invalid email address!");
+  } else {
+    state.result[state.newPost.classTitle] = state.result[state.newPost.classTitle] ? [{
+      name: state.newPost.name,
+      academicStanding: state.newPost.classStanding,
+      major: state.newPost.major,
+      avatar: "../img/avatar-placeholder.png"
+    }, ...state.result[state.newPost.classTitle]] :
+    [{
+      name: state.newPost.name,
+      academicStanding: state.newPost.classStanding,
+      major: state.newPost.major,
+      avatar: "../img/avatar-placeholder.png"
+    }];
+  }
+  qs('#new-post-form').classList.add('collapse');
+  qs('#add-new-post-wrapper p').classList.remove('collapse');
+  qs('#add-new-post-wrapper p').innerText = "Succeeded!"
   renderSearchResult();
 };
 
