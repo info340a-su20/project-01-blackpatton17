@@ -7,6 +7,7 @@ h2 {
     margin: 0;
     align-self: center;
     font-weight: bold;
+    font-size: 18pt;
 }
 
 #search-bar {
@@ -29,7 +30,18 @@ h2 {
 }
 
 .search-condition-input {
-    width: 15%;
+    width: 10%;
+    height: 30px;
+
+}
+
+#submit-search {
+    background-color: #4b2e83;
+    color: white;
+    border: 0;
+    border-radius: 3px;
+    height: 30px;
+    width: 100px;
 }
 
 #content-wrapper {
@@ -44,7 +56,7 @@ h2 {
     margin-right: 5%;
 }
 
-#result-filter-wrapper {
+#result-filter-wrapper{
     margin: 0 auto;
     width: 80%;
     height: 200px;
@@ -54,7 +66,7 @@ h2 {
     justify-content: space-evenly;
     align-content: center;
     border: solid 2px #b1bbc2;
-    border-radius: 5%;
+    border-radius: 10px;
     background-color: #e3e6e9;
 }
 
@@ -85,7 +97,11 @@ h2 {
 
 #add-new-post-wrapper {
     margin: 20px auto;
+    padding: 1rem;
     width: 80%;
+    border: solid 2px #b1bbc2;
+    border-radius: 10px;
+    background-color: #e3e6e9;
 }
 
 #add-new-post-wrapper > p {
@@ -100,11 +116,6 @@ h2 {
     font-size: 11.5pt;
 }
 
-#new-post-form {
-    display: flex;
-    flex-direction: column;
-}
-
 .new-post-input-wrapper {
     margin: 10px 5px;
     display: grid;
@@ -112,6 +123,51 @@ h2 {
     column-gap: 3%;
 }
 
+#new-post-form:not(.collapse) {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
 #new-post-form input {
     height: 30px;
+}
+
+#post-new-post {
+    border: 0;
+    border-radius: 3px;
+    background-color: #4b2e83;
+    color: white;
+    font-size: 11.5pt;
+}
+
+#search-result-wrapper {
+    width: 65%;
+}
+
+.search-result {
+    border-radius: 3px;
+    border: solid 2px #b1bbc2;
+    background-color: #e3e6e9;
+    width: 100%;
+    height: 100px;
+    margin-bottom: 20px;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.result-avatar {
+    border-radius: 50%;
+}
+
+.search-result div {
+    font-size: 11.5pt;
+}
+
+.send-message {
+    height: 60%;
+    background-color: #4b2e83;
+    color: white;
 }

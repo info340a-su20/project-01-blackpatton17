@@ -97,7 +97,7 @@ const renderSearchResult = () => {
     // create send message btn
     let sendMsgBtn = crNewEl('button');
     sendMsgBtn.textContent = "Send a Message";
-    sendMsgBtn.classList.add('send-massage');
+    sendMsgBtn.classList.add('send-message');
     sendMsgBtn.addEventListener('click', () => handleSendMsg(data));
     resultDiv.appendChild(sendMsgBtn);
 
