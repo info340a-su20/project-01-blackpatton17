@@ -2,3 +2,29 @@
     background-image: url("../img/profile_header.jpg");
 }
 
+.divide-section {
+    margin: 60px;
+    display: grid;
+    grid-template-columns: 52% 40%;
+    column-gap: 5%;
+}
+
+.overall-title {
+    height: 70%;
+    background-color: #4b2e83;
+    color: white;
+}
+
+.random-text {
+    width: 100%;
+    font-size: 7.5pt;
+    background-color: grey;
+    color: white;
+}
+
+.intruduce-text{
+    font-size: 6.5pt;
+    margin: 10px 5px;
+    display: grid;
+}
+
