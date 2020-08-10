@@ -61,7 +61,15 @@ nav img {
     font-size: 14.5pt;
     font-weight: bold;
 }
-
+header{
+    background-image: url(../img/home_header.jpg);
+    padding-left: 13%;
+    padding-right: 35%;
+    padding-top: 8%;
+    padding-bottom: 8%;
+    background-repeat: no-repeat;
+    color: white;
+}
 .card {
     border-radius: 10px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16), 0 1px 3px rgba(0, 0, 0, 0.23)	;
