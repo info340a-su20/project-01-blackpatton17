@@ -7,7 +7,13 @@ const state = {
     quizSection: "",
   },
   newPost: {
-    
+    classTitle: "",
+    section: "",
+    quizSection: "",
+    name: "",
+    classStanding: "",
+    Major: "",
+    Email: "",
   },
   result: [
     {
