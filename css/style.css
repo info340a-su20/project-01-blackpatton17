@@ -20,30 +20,33 @@ body {
     font-weight: 500;
     line-height: 1.5;
     color: black;
-    text-align: middle;
     background-color: white;
   }
 
 #page-header {
-    color: white;
-    margin: 10;
-    padding: 1rem 1rem 1rem 2rem;
-    background-image: url(../img/header.jpg);
-    background-color: #cccccc;
-    height: 120px; 
-    background-position: center; 
-    background-repeat: no-repeat; 
+    height: 140px;
+    background-position: center;
+    background-repeat: no-repeat;
     background-size: cover;
+    color: white;
+    padding: 1rem 1rem 1rem 10%;
 }
-  
+
 
 nav {
-    position: flex;
-    display: inline-block;
-    top: 0;
-    right: 10;
-    width: 98%;
+    display: flex;
+    justify-content: space-between;
     background-color: #4b2e83;
-    padding: 1rem 1rem 1rem 1rem;
-    text-align: right;
 }
+
+main {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
+
+button {
+    border: 0;
+    border-radius: 3px;
+}
+
