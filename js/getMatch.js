@@ -12,7 +12,7 @@ const state = {
     quizSection: "",
     name: "",
     classStanding: "",
-    Major: [],
+    major: [""],
     Email: "",
   },
   result: {
@@ -66,7 +66,7 @@ const initInput = () => {
   let searchInputs = qsa('.search-condition input');
   for (let input of searchInputs) {
     input.addEventListener("input", (e) => {
-      state.search[e.target.name] = input.name === 'major' ? e.target.value.split(",") : e.target.value;
+      state.search[e.target.name] = input.name === 'major' ? (e.target.value.split(",") ? e.target.value.split(",") : [""]) : e.target.value;
     })
   }
   qs(".search-condition").addEventListener("submit", e => handleNewSearch(e));
@@ -134,7 +134,7 @@ const genResultComponent = (data) => {
   resultSpecInfo.appendChild(resultStanding);
 
   let resultMajor = crNewEl('p');
-  let majorContent = data.major.length === 1 ? data.major[0] : data.major.reduce(((previousValue, currentValue) => {
+  let majorContent = data.major.length < 1 ? data.major[0] : data.major.reduce(((previousValue, currentValue) => {
     return previousValue + ", " + currentValue;
   }))
   resultMajor.textContent = "Major: " + majorContent;
