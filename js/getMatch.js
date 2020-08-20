@@ -53,6 +53,8 @@ const state = {
   }
 }
 
+const URL = "https://mpvl0452tj.execute-api.us-east-1.amazonaws.com/Prod/query"
+
 window.addEventListener("load", () => init());
 
 const init = () => {
@@ -119,16 +121,35 @@ const handleNewSearch = (e) => {
 
 const renderSearchResult = () => {
   qs("#search-result-wrapper").innerHTML = null;
-  if (state.result[state.search.classTitle]) {
-    for (let data of state.result[state.search.classTitle]) {
-      qs("#search-result-wrapper").appendChild(genResultComponent(data));
-    }
-  } else {
-    let output = crNewEl('p');
-    output.innerText = "No one has posted a request yet."
-    qs("#search-result-wrapper").appendChild(output);
-  }
+  getQueryFetcher();
+  // if (state.result[state.search.classTitle]) {
+  //   for (let data of state.result[state.search.classTitle]) {
+  //     qs("#search-result-wrapper").appendChild(genResultComponent(data));
+  //   }
+  // } else {
+  //   let output = crNewEl('p');
+  //   output.innerText = "No one has posted a request yet."
+  //   qs("#search-result-wrapper").appendChild(output);
+  // }
+
 };
+
+const getQueryFetcher = () => {
+  let finalURl = `${URL}?classTitle=${state.search.classTitle}`
+  fetch(finalURl)
+      .then(response => {
+        return response.json();
+      })
+      .then(response => {
+        let result = response.result;
+        result.forEach(x => {
+          qs("#search-result-wrapper").appendChild(genResultComponent(x));
+        })
+      })
+      .catch(error => {
+        console.log("error: ", error)
+      })
+}
 
 const genResultComponent = (data) => {
   let resultDiv = crNewEl('div');

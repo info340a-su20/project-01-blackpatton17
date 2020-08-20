@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "firebase-functions": "^3.9.1",
     "jest-style-matchers": "^0.1.2"
   },
   "eslintConfig": {
@@ -35,5 +36,9 @@
         "error"
       ]
     }
+  },
+  "dependencies": {
+    "firebase": "^7.2.3",
+    "firebase-admin": "^9.1.0"
   }
 }
