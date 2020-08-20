@@ -202,8 +202,9 @@ const openNewPostForm = () => {
 
 // callback function for send message to the selected people
 const handleSendMsg = (e) => {
-  e.target.textContent = "Message Sent via Email!";
+  e.target.textContent = "Message Sent!";
   e.target.disabled = true;
+  e.target.classList.add('message-sent');
 };
 
 // function to bind DOM INPUT with state
