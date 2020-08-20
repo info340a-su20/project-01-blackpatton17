@@ -237,11 +237,14 @@ const handleFilter = (data) => {
   output = output.sort((a, b) => {
     switch (state.filter.sortBy){
       case "workTime":
-        return a['workTime']['start'] < b['workTime']['start'] ? -1 : (a['workTime']['start'] === b['workTime']['start'] ? 0: 1);
+        return a['workTime']['start'] < b['workTime']['start'] ? -1 : (a['workTime']['start']
+        === b['workTime']['start'] ? 0: 1);
       case "name":
-        return a[state.filter.sortBy] < b[state.filter.sortBy] ? -1 : (a[state.filter.sortBy] === b[state.filter.sortBy] ? 0: 1);
+        return a[state.filter.sortBy] < b[state.filter.sortBy] ? -1 : (a[state.filter.sortBy]
+        === b[state.filter.sortBy] ? 0: 1);
       case "academicStanding":
-        return a[state.filter.sortBy] < b[state.filter.sortBy] ? 1 : (a[state.filter.sortBy] === b[state.filter.sortBy] ? 0: -1);
+        return a[state.filter.sortBy] < b[state.filter.sortBy] ? 1 : (a[state.filter.sortBy]
+        === b[state.filter.sortBy] ? 0: -1);
     }
   });
   return output;
