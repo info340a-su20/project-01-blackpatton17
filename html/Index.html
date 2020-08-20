@@ -38,7 +38,7 @@
                 </div>
                 <div>
                     <label for="section" class="search-condition-title">Section: </label>
-                    <input type="text" class="search-condition-input" id="section" name="section" placeholder="A"/>
+                    <input type="text" class="search-condition-input" id="section" name="section" placeholder="Optional"/>
                 </div>
                 <div>
                     <label for="quiz-section" class="search-condition-title">Quiz Section:</label>
@@ -88,7 +88,7 @@
                             </div>
                             <div class="new-post-input-wrapper">
                                 <label for="new-post-section">Section: </label>
-                                <input type="text" id="new-post-section" name="section" />
+                                <input type="text" id="new-post-section" placeholder="Optional" name="section" />
                             </div>
                             <div class="new-post-input-wrapper">
                                 <label for="new-post-quiz-section">Quiz Section (only one): </label>
@@ -127,13 +127,15 @@
             </div>
             <div id="search-result-wrapper">
                 <img alt="Loading" src="../img/ajaxLoading.gif" class="collapse" id="ajax-loading"/>
-                <div id="search-result-content"></div>
+                <div id="search-result-content">
+                    <p>Please enter your class Title(class Code) to search your future partner</p>
+                </div>
             </div>
         </div>
     </main>
     <footer>
-<!--        <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/3.4.0/fetch.min.js" integrity="sha512-+iXlQLHKQZYoFQZfyWkUuJB6X7aZA2+FvAB5PyiYzxRKbgmSLp6vzwXjTlqdvKV5OJS09HHN4lIekb5OOCKhQw==" crossorigin="anonymous"></script>-->
-<!--        <script src="https://cdnjs.cloudflare.com/ajax/libs/promise-polyfill/8.1.3/polyfill.min.js" integrity="sha512-jVOsf4v+eYZr+IkABBHh0mBbBn4BZn6t0W6yah9aKXgHK0tw++HH2yX8XObYImtg+B2Cytx/X3fFkiPums57BQ==" crossorigin="anonymous"></script>-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/3.4.0/fetch.min.js" integrity="sha512-+iXlQLHKQZYoFQZfyWkUuJB6X7aZA2+FvAB5PyiYzxRKbgmSLp6vzwXjTlqdvKV5OJS09HHN4lIekb5OOCKhQw==" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/promise-polyfill/8.1.3/polyfill.min.js" integrity="sha512-jVOsf4v+eYZr+IkABBHh0mBbBn4BZn6t0W6yah9aKXgHK0tw++HH2yX8XObYImtg+B2Cytx/X3fFkiPums57BQ==" crossorigin="anonymous"></script>
         <p class="footer">Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></p>
         <p class="footer">Logo and images are from University of Washington</p>
     </footer>

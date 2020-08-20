@@ -1,9 +1,9 @@
 "use strict";
 
-const state = {
+const STATE = {
   search: {
-    classTitle: "INFO340",
-    section: "A",
+    classTitle: "",
+    section: "",
     quizSection: "",
   },
   newPost: {
@@ -29,15 +29,17 @@ const state = {
   }
 };
 
-const URL = "https://mpvl0452tj.execute-api.us-east-1.amazonaws.com/Prod/query";
+const DATABASE_API_ENDPOINT = "https://mpvl0452tj.execute-api.us-east-1.amazonaws.com/Prod/query";
 
 window.addEventListener("load", () => init());
+window.addEventListener("close", () => {
+  window.localStorage.clear();
+})
 
 // initialize the page
 const init = async () => {
   initInput();
-  await renderSearchResult();
-  // qs('#submit-search').addEventListener("click", updateResearch);
+  await setInitSearch();
 };
 
 // bind input with goble const state
@@ -45,7 +47,8 @@ const initInput = () => {
   let searchInputs = qsa('.search-condition input');
   for (let input of searchInputs) {
     input.addEventListener("input", (e) => {
-      state.search[e.target.name] = input.name === 'major' ? (e.target.value.split(",") ? e.target.value.split(",") : [""]) : e.target.value;
+      STATE.search[e.target.name] = input.name === 'major' ?
+          (e.target.value.split(",") ? e.target.value.split(",") :[""]) : e.target.value;
     })
   }
   qs(".search-condition").addEventListener("submit", e => handleNewSearch(e));
@@ -55,10 +58,10 @@ const initInput = () => {
     if (input.type !== 'submit') {
       input.addEventListener("input", (e) => {
         if (input.name === 'workTime') {
-          state.newPost['workTimeInterval']['start'] = e.target.value.split('-')[0];
-          state.newPost['workTimeInterval']['end'] = e.target.value.split('-')[1];
+          STATE.newPost['workTimeInterval']['start'] = e.target.value.split('-')[0];
+          STATE.newPost['workTimeInterval']['end'] = e.target.value.split('-')[1];
         } else {
-          state.newPost[e.target.name] = input.name === 'major' ? e.target.value.split(",") : e.target.value;
+          STATE.newPost[e.target.name] = input.name === 'major' ? e.target.value.split(",") : e.target.value;
         }
       });
     }
@@ -75,16 +78,16 @@ const initInput = () => {
 // callback function for submit a new match_up request
 const handleNewPost = (e) => {
   e.preventDefault();
-  if (state.newPost.name.classStanding === 0) {
+  if (STATE.newPost.name.classStanding === 0) {
     alert("You have to enter your name! (e.g.: Junior)");
   } else {
     setQueryFetcher({
-      classTitle: state.newPost.classTitle,
-      name: state.newPost.name,
-      classStanding: state.newPost.classStanding,
-      major: state.newPost.major,
+      classTitle: STATE.newPost.classTitle,
+      name: STATE.newPost.name,
+      classStanding: STATE.newPost.classStanding,
+      major: STATE.newPost.major,
       avatar: "placeholder",
-      workTime: state.newPost.workTimeInterval
+      workTime: STATE.newPost.workTimeInterval
     }).then(async response => {
       qs('#new-post-form').classList.toggle('collapse');
       qs('#add-new-post-wrapper p').classList.toggle('collapse');
@@ -96,7 +99,7 @@ const handleNewPost = (e) => {
 
 // fetch for post data to server
 const setQueryFetcher = (data) => {
-  return fetch(URL, {method: 'POST', body: JSON.stringify(data)})
+  return fetch(DATABASE_API_ENDPOINT, {method: 'POST', body: JSON.stringify(data)})
       .then(response => {
         return response.json();
       })
@@ -110,11 +113,10 @@ const handleNewSearch = (e) => {
 
 // render search result components
 const renderSearchResult = async () => {
+  qs("#search-result-content").innerHTML = null;
   let result = await getQueryFetcher();
   result = handleFilter(result);
 
-  qs('#ajax-loading').classList.toggle('collapse');
-  qs("#search-result-content").innerHTML = null;
   if (result.length === 0) {
     let output = crNewEl('p');
     output.innerText = "No one has posted a request yet."
@@ -124,13 +126,13 @@ const renderSearchResult = async () => {
       qs("#search-result-content").appendChild(genResultComponent(x));
     });
   }
-  qs('#ajax-loading').classList.toggle('collapse');
 
 };
 
 // fetch for send query for get data from server
 const getQueryFetcher = async () => {
-  let finalURl = `${URL}?classTitle=${state.search.classTitle}`;
+  qs('#ajax-loading').classList.toggle('collapse');
+  let finalURl = `${DATABASE_API_ENDPOINT}?classTitle=${STATE.search.classTitle}`;
   let output = [];
   await fetch(finalURl)
       .then(response => {
@@ -141,6 +143,7 @@ const getQueryFetcher = async () => {
         result.forEach(x => {
           output.push(x);
         });
+        qs('#ajax-loading').classList.toggle('collapse');
       });
   return output;
 };
@@ -206,50 +209,60 @@ const handleSendMsg = (e) => {
 // function to bind DOM INPUT with state
 const bindFilterWithState = () => {
   qs('#work-time-start').addEventListener('input', (e) => {
-    state.filter.workTimeInterval.start = e.target.value;
+    STATE.filter.workTimeInterval.start = e.target.value;
   });
 
   qs('#work-time-end').addEventListener('input', (e) => {
-    state.filter.workTimeInterval.end = e.target.value;
+    STATE.filter.workTimeInterval.end = e.target.value;
   });
 
-  state.filter.sortBy = qs('#sort-filter').value;
+  STATE.filter.sortBy = qs('#sort-filter').value;
 
   qs('#sort-filter').addEventListener('change', (e) => {
-    state.filter.sortBy = e.target.value;
+    STATE.filter.sortBy = e.target.value;
   });
 }
 
 // callback function for filtering search result
 const handleFilter = (data) => {
   let output = data;
-  output = output.filter(x => {
-    if (state.filter.workTimeInterval.start === "" && state.filter.workTimeInterval.end === "") {
+  output = output.filter(item => {
+    if (STATE.filter.workTimeInterval.start === "" && STATE.filter.workTimeInterval.end === "") {
       return true;
     }
-    if (state.filter.workTimeInterval.end === "") {
-      return x.workTime.start >= state.filter.workTimeInterval.start
-    } else if (state.filter.workTimeInterval.start === "") {
-      return x.workTime.end <= state.filter.workTimeInterval.end;
+    if (STATE.filter.workTimeInterval.end === "") {
+      return item.workTime.start >= STATE.filter.workTimeInterval.start
+    } else if (STATE.filter.workTimeInterval.start === "") {
+      return item.workTime.end <= STATE.filter.workTimeInterval.end;
     }
-    return x.workTime.start >= state.filter.workTimeInterval.start &&
-        x.workTime.end <= state.filter.workTimeInterval.end;
+    return item.workTime.start >= STATE.filter.workTimeInterval.start &&
+        item.workTime.end <= STATE.filter.workTimeInterval.end;
   });
-  output = output.sort((a, b) => {
-    switch (state.filter.sortBy){
+  output = output.sort((prev, next) => {
+    switch (STATE.filter.sortBy){
       case "workTime":
-        return a['workTime']['start'] < b['workTime']['start'] ? -1 : (a['workTime']['start']
-        === b['workTime']['start'] ? 0: 1);
+        return prev['workTime']['start'] < next['workTime']['start'] ? -1 : (prev['workTime']['start']
+        === next['workTime']['start'] ? 0: 1);
       case "name":
-        return a[state.filter.sortBy] < b[state.filter.sortBy] ? -1 : (a[state.filter.sortBy]
-        === b[state.filter.sortBy] ? 0: 1);
+        return prev[STATE.filter.sortBy] < next[STATE.filter.sortBy] ? -1 : (prev[STATE.filter.sortBy]
+        === next[STATE.filter.sortBy] ? 0: 1);
       case "academicStanding":
-        return a[state.filter.sortBy] < b[state.filter.sortBy] ? 1 : (a[state.filter.sortBy]
-        === b[state.filter.sortBy] ? 0: -1);
+        return prev[STATE.filter.sortBy] < next[STATE.filter.sortBy] ? 1 : (prev[STATE.filter.sortBy]
+        === next[STATE.filter.sortBy] ? 0: -1);
     }
   });
   return output;
 };
+
+const setInitSearch = async () => {
+  let urlString = window.location.href;
+  let url = new URL(urlString);
+  let classTitle = url.searchParams.get("classTitle");
+  if (!!classTitle) {
+    STATE.search.classTitle = classTitle;
+    await renderSearchResult();
+  }
+}
 
 /****************** helper functions *********************/
 
