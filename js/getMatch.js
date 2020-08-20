@@ -14,42 +14,6 @@ const state = {
     classStanding: "",
     major: [""],
     Email: "",
-  },
-  result: {
-    "INFO340": [
-      {
-        name: "Joe Alan",
-        academicStanding: "Junior",
-        major: ["INFO", "CSE"],
-        avatar: "../img/avatar-placeholder.png"
-      },
-      {
-        name: "Jalan Some",
-        academicStanding: "Junior",
-        major: ["INFO", "CSE"],
-        avatar: "../img/avatar-placeholder.png"
-      },
-      {
-        name: "Zach Test",
-        academicStanding: "Junior",
-        major: ["INFO", "CSE"],
-        avatar: "../img/avatar-placeholder.png"
-      }
-    ],
-    "INFO201": [
-      {
-        name: "Test User",
-        academicStanding: "Junior",
-        major: ["INFO", "CSE"],
-        avatar: "../img/avatar-placeholder.png"
-      },
-      {
-        name: "Joe Alan",
-        academicStanding: "Junior",
-        major: ["INFO", "CSE"],
-        avatar: "../img/avatar-placeholder.png"
-      }
-    ]
   }
 }
 
@@ -57,6 +21,7 @@ const URL = "https://mpvl0452tj.execute-api.us-east-1.amazonaws.com/Prod/query"
 
 window.addEventListener("load", () => init());
 
+// initialize the page
 const init = () => {
   initInput();
   renderSearchResult();
@@ -95,60 +60,63 @@ const handleNewPost = (e) => {
   } else if (!state.newPost.email.indexOf("@") < 0) {
     alert("You have entered an invalid email address!");
   } else {
-    state.result[state.newPost.classTitle] = state.result[state.newPost.classTitle] ? [{
+    setQueryFetcher({
+      classTitle: state.newPost.classTitle,
       name: state.newPost.name,
-      academicStanding: state.newPost.classStanding,
+      classStanding: state.newPost.classStanding,
       major: state.newPost.major,
-      avatar: "../img/avatar-placeholder.png"
-    }, ...state.result[state.newPost.classTitle]] :
-    [{
-      name: state.newPost.name,
-      academicStanding: state.newPost.classStanding,
-      major: state.newPost.major,
-      avatar: "../img/avatar-placeholder.png"
-    }];
+      avatar: "placeholder"
+    }).then(response => {
+      qs('#new-post-form').classList.add('collapse');
+      qs('#add-new-post-wrapper p').classList.remove('collapse');
+      qs('#add-new-post-wrapper p').innerText = response['message'];
+      renderSearchResult().catch(error => console.error(error));
+    })
   }
-  qs('#new-post-form').classList.add('collapse');
-  qs('#add-new-post-wrapper p').classList.remove('collapse');
-  qs('#add-new-post-wrapper p').innerText = "Succeeded!"
-  renderSearchResult();
 };
+
+const setQueryFetcher = (data) => {
+  return fetch(URL, {method: 'POST', body: JSON.stringify(data)})
+      .then(response => {
+        return response.json();
+      })
+}
 
 const handleNewSearch = (e) => {
   e.preventDefault();
-  renderSearchResult();
-}
+  return renderSearchResult();
+};
 
 const renderSearchResult = () => {
-  qs("#search-result-wrapper").innerHTML = null;
-  getQueryFetcher();
-  // if (state.result[state.search.classTitle]) {
-  //   for (let data of state.result[state.search.classTitle]) {
-  //     qs("#search-result-wrapper").appendChild(genResultComponent(data));
-  //   }
-  // } else {
-  //   let output = crNewEl('p');
-  //   output.innerText = "No one has posted a request yet."
-  //   qs("#search-result-wrapper").appendChild(output);
-  // }
-
+  toggleAjaxLoadAnime();
+  qs("#search-result-content").innerHTML = null;
+  getQueryFetcher()
+      .then(() => {
+        toggleAjaxLoadAnime();
+      })
+      .catch(error => {
+        console.log("error: ", error)
+      });
 };
 
 const getQueryFetcher = () => {
-  let finalURl = `${URL}?classTitle=${state.search.classTitle}`
-  fetch(finalURl)
+  let finalURl = `${URL}?classTitle=${state.search.classTitle}`;
+  return fetch(finalURl)
       .then(response => {
         return response.json();
       })
       .then(response => {
-        let result = response.result;
-        result.forEach(x => {
-          qs("#search-result-wrapper").appendChild(genResultComponent(x));
-        })
-      })
-      .catch(error => {
-        console.log("error: ", error)
-      })
+        if (response.count === 0) {
+          let output = crNewEl('p');
+          output.innerText = "No one has posted a request yet."
+          qs("#search-result-content").appendChild(output);
+        } else {
+          let result = response.result;
+          result.forEach(x => {
+            qs("#search-result-content").appendChild(genResultComponent(x));
+          });
+        }
+      });
 }
 
 const genResultComponent = (data) => {
@@ -157,7 +125,7 @@ const genResultComponent = (data) => {
 
   // create img and append on the result div
   let resultImg = crNewEl('img');
-  resultImg.src = data.avatar;
+  resultImg.src = data.avatar === 'placeholder' ? '../img/avatar-placeholder.png' : data.avatar;
   resultImg.alt = data.name;
   resultImg.classList.add("result-avatar");
   resultDiv.appendChild(resultImg);
@@ -199,6 +167,11 @@ const openNewPostForm = () => {
 const handleSendMsg = () => {
   alert("Your message has been send via email, you can check reply via inbox or your registered email!")
 };
+
+// hide or show the ajax loading anime
+const toggleAjaxLoadAnime = () => {
+  qs('#ajax-loading').classList.toggle('collapse');
+}
 
 /****************** helper functions *********************/
 
