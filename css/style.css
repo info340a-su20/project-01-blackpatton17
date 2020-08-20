@@ -7,6 +7,10 @@
     display: none;
 }
 
+input:hover {
+
+}
+
 body {
     margin: 0;
     font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial;

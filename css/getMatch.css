@@ -12,7 +12,7 @@ button {
     background-color: #e3e6e9;
 }
 
-button:hover {
+#submit-search:hover, #filter-apply:hover, #add-new-post:hover, #post-new-post:hover,* button:hover {
     color: #4b2e83;
     border: solid 1px #4b2e83;
     background-color: white;
