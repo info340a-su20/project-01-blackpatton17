@@ -14,21 +14,33 @@ const state = {
     classStanding: "",
     major: [""],
     Email: "",
+    workTimeInterval: {
+      start:"",
+      end:"",
+    }
+  },
+  result: [],
+  filter: {
+    workTimeInterval: {
+      start:"",
+      end:"",
+    },
+    sortBy:"",
   }
-}
+};
 
-const URL = "https://mpvl0452tj.execute-api.us-east-1.amazonaws.com/Prod/query"
+const URL = "https://mpvl0452tj.execute-api.us-east-1.amazonaws.com/Prod/query";
 
 window.addEventListener("load", () => init());
 
 // initialize the page
-const init = () => {
+const init = async () => {
   initInput();
-  renderSearchResult();
-  qs('#add-new-post').addEventListener("click", () => openNewPostForm());
+  await renderSearchResult();
   // qs('#submit-search').addEventListener("click", updateResearch);
 };
 
+// bind input with goble const state
 const initInput = () => {
   let searchInputs = qsa('.search-condition input');
   for (let input of searchInputs) {
@@ -41,84 +53,99 @@ const initInput = () => {
   let addNewPostFormInputs = qsa('#new-post-form input');
   for (let input of addNewPostFormInputs) {
     if (input.type !== 'submit') {
-      input.value = state.search[input.name] ? state.search[input.name] : "";
-      state.newPost[input.name] = state.search[input.name] ? state.search[input.name] : "";
       input.addEventListener("input", (e) => {
-        state.newPost[e.target.name] = input.name === 'major' ? e.target.value.split(",") : e.target.value;
+        if (input.name === 'workTime') {
+          state.newPost['workTimeInterval']['start'] = e.target.value.split('-')[0];
+          state.newPost['workTimeInterval']['end'] = e.target.value.split('-')[1];
+        } else {
+          state.newPost[e.target.name] = input.name === 'major' ? e.target.value.split(",") : e.target.value;
+        }
       });
     }
   }
-  qs("#new-post-form").addEventListener("submit", e => handleNewPost(e))
+  qs("#new-post-form").addEventListener("submit", e => handleNewPost(e));
+
+  bindFilterWithState();
+
+  qs("#result-filter-wrapper").addEventListener("submit", e => handleNewSearch(e));
+
+  qs('#add-new-post').addEventListener("click", () => openNewPostForm());
 };
 
+// callback function for submit a new match_up request
 const handleNewPost = (e) => {
   e.preventDefault();
-  if (state.newPost.name.length === 0) {
-    alert("You have to enter your name!");
-  } else if (state.newPost.name.classStanding === 0) {
+  if (state.newPost.name.classStanding === 0) {
     alert("You have to enter your name! (e.g.: Junior)");
-  } else if (!state.newPost.email.indexOf("@") < 0) {
-    alert("You have entered an invalid email address!");
   } else {
     setQueryFetcher({
       classTitle: state.newPost.classTitle,
       name: state.newPost.name,
       classStanding: state.newPost.classStanding,
       major: state.newPost.major,
-      avatar: "placeholder"
-    }).then(response => {
-      qs('#new-post-form').classList.add('collapse');
-      qs('#add-new-post-wrapper p').classList.remove('collapse');
+      avatar: "placeholder",
+      workTime: state.newPost.workTimeInterval
+    }).then(async response => {
+      qs('#new-post-form').classList.toggle('collapse');
+      qs('#add-new-post-wrapper p').classList.toggle('collapse');
       qs('#add-new-post-wrapper p').innerText = response['message'];
-      renderSearchResult().catch(error => console.error(error));
+      await renderSearchResult();
     })
   }
 };
 
+// fetch for post data to server
 const setQueryFetcher = (data) => {
   return fetch(URL, {method: 'POST', body: JSON.stringify(data)})
       .then(response => {
         return response.json();
       })
-}
+};
 
+// callback function for submit a new search, re-render search result components
 const handleNewSearch = (e) => {
   e.preventDefault();
   return renderSearchResult();
 };
 
-const renderSearchResult = () => {
-  toggleAjaxLoadAnime();
+// render search result components
+const renderSearchResult = async () => {
+  let result = await getQueryFetcher();
+  result = handleFilter(result);
+
+  qs('#ajax-loading').classList.toggle('collapse');
   qs("#search-result-content").innerHTML = null;
-  getQueryFetcher()
-      .then(() => {
-        toggleAjaxLoadAnime();
-      })
-      .catch(error => {
-        console.log("error: ", error)
-      });
+  if (result.length === 0) {
+    let output = crNewEl('p');
+    output.innerText = "No one has posted a request yet."
+    qs("#search-result-content").appendChild(output);
+  } else {
+    result.forEach(x => {
+      qs("#search-result-content").appendChild(genResultComponent(x));
+    });
+  }
+  qs('#ajax-loading').classList.toggle('collapse');
+
 };
 
-const getQueryFetcher = () => {
+// fetch for send query for get data from server
+const getQueryFetcher = async () => {
   let finalURl = `${URL}?classTitle=${state.search.classTitle}`;
-  return fetch(finalURl)
+  let output = [];
+  await fetch(finalURl)
       .then(response => {
         return response.json();
       })
       .then(response => {
-        if (response.count === 0) {
-          let output = crNewEl('p');
-          output.innerText = "No one has posted a request yet."
-          qs("#search-result-content").appendChild(output);
-        } else {
-          let result = response.result;
-          result.forEach(x => {
-            qs("#search-result-content").appendChild(genResultComponent(x));
-          });
-        }
+        let result = response.result;
+        result.forEach(x => {
+          output.push(x);
+        });
       });
-}
+  return output;
+};
 
+// generate new search result component DOM
 const genResultComponent = (data) => {
   let resultDiv = crNewEl('div');
   resultDiv.classList.add('search-result');
@@ -137,15 +164,20 @@ const genResultComponent = (data) => {
   resultSpecInfo.appendChild(resultName);
 
   let resultStanding = crNewEl('p');
-  resultStanding.textContent = "Academic Standing: " + data.academicStanding;
+  resultStanding.textContent = "Academic Standing: " + data['academicStanding'];
   resultSpecInfo.appendChild(resultStanding);
 
   let resultMajor = crNewEl('p');
-  let majorContent = data.major.length < 1 ? data.major[0] : data.major.reduce(((previousValue, currentValue) => {
+  let majorContent = data.major.length < 1 ? "Unknown" : data.major.reduce(((previousValue, currentValue) => {
     return previousValue + ", " + currentValue;
   }))
   resultMajor.textContent = "Major: " + majorContent;
   resultSpecInfo.appendChild(resultMajor);
+
+  let resultWorkTime = crNewEl('p');
+  resultWorkTime.textContent = `Work Time: ${data['workTime']['start'] ? data['workTime']['start'] : "unavailable"} - 
+  ${data['workTime']['end'] ? data['workTime']['end'] : "unavailable"}`;
+  resultSpecInfo.appendChild(resultWorkTime);
 
   resultDiv.appendChild(resultSpecInfo);
 
@@ -153,25 +185,67 @@ const genResultComponent = (data) => {
   let sendMsgBtn = crNewEl('button');
   sendMsgBtn.textContent = "Send a Message";
   sendMsgBtn.classList.add('send-message');
-  sendMsgBtn.addEventListener('click', () => handleSendMsg(data));
+  sendMsgBtn.addEventListener('click', (e) => handleSendMsg(e));
   resultDiv.appendChild(sendMsgBtn);
   return resultDiv;
-}
-
-const openNewPostForm = () => {
-  qs('#new-post-form').classList.remove('collapse');
-  qs('#add-new-post').classList.add('collapse');
-  qs('#add-new-post-wrapper p').classList.add('collapse');
-}
-
-const handleSendMsg = () => {
-  alert("Your message has been send via email, you can check reply via inbox or your registered email!")
 };
 
-// hide or show the ajax loading anime
-const toggleAjaxLoadAnime = () => {
-  qs('#ajax-loading').classList.toggle('collapse');
+// toggle the appearance of post new request form
+const openNewPostForm = () => {
+  qs('#new-post-form').classList.toggle('collapse');
+  qs('#add-new-post').classList.toggle('collapse');
+  qs('#add-new-post-wrapper p').classList.toggle('collapse');
+};
+
+// callback function for send message to the selected people
+const handleSendMsg = (e) => {
+  e.target.textContent = "Message Sent via Email!";
+};
+
+// function to bind DOM INPUT with state
+const bindFilterWithState = () => {
+  qs('#work-time-start').addEventListener('input', (e) => {
+    state.filter.workTimeInterval.start = e.target.value;
+  });
+
+  qs('#work-time-end').addEventListener('input', (e) => {
+    state.filter.workTimeInterval.end = e.target.value;
+  });
+
+  state.filter.sortBy = qs('#sort-filter').value;
+
+  qs('#sort-filter').addEventListener('change', (e) => {
+    state.filter.sortBy = e.target.value;
+  });
 }
+
+// callback function for filtering search result
+const handleFilter = (data) => {
+  let output = data;
+  output = output.filter(x => {
+    if (state.filter.workTimeInterval.start === "" && state.filter.workTimeInterval.end === "") {
+      return true;
+    }
+    if (state.filter.workTimeInterval.end === "") {
+      return x.workTime.start >= state.filter.workTimeInterval.start
+    } else if (state.filter.workTimeInterval.start === "") {
+      return x.workTime.end <= state.filter.workTimeInterval.end;
+    }
+    return x.workTime.start >= state.filter.workTimeInterval.start &&
+        x.workTime.end <= state.filter.workTimeInterval.end;
+  });
+  output = output.sort((a, b) => {
+    switch (state.filter.sortBy){
+      case "workTime":
+        return a['workTime']['start'] < b['workTime']['start'] ? -1 : (a['workTime']['start'] === b['workTime']['start'] ? 0: 1);
+      case "name":
+        return a[state.filter.sortBy] < b[state.filter.sortBy] ? -1 : (a[state.filter.sortBy] === b[state.filter.sortBy] ? 0: 1);
+      case "academicStanding":
+        return a[state.filter.sortBy] < b[state.filter.sortBy] ? 1 : (a[state.filter.sortBy] === b[state.filter.sortBy] ? 0: -1);
+    }
+  });
+  return output;
+};
 
 /****************** helper functions *********************/
 

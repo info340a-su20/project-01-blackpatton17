@@ -50,56 +50,76 @@
         </div>
         <div id="content-wrapper">
             <div id="side-bar-wrapper">
-                <div id="result-filter-wrapper">
+                <form id="result-filter-wrapper">
                     <div class="result-filter">
                         <label for="work-time-start">Available Work Time: </label>
                         <div>
-                            <input placeholder="8:00" type="text" class="work-time" id="work-time-start" name="work-time-start" />
+                            <input title="HH:MM" pattern="[0-2][0-9]:[0-6][0-6]"
+                                   placeholder="08:00" type="text" class="work-time"
+                                   id="work-time-start" name="work-time-start" />
                             <p aria-label="to">-</p>
-                            <input placeholder="17:00" type="text" class="work-time" id="work-time-end" name="work-time-end" />
+                            <input title="HH:MM" pattern="[0-2][0-9]:[0-6][0-6]"
+                                   placeholder="17:00" type="text" class="work-time"
+                                   id="work-time-end" name="work-time-end" />
                         </div>
                     </div>
                     <div class="result-filter">
-                        <label for="test1">filter condition placeholder: </label>
-                        <input type="checkbox" class="filter-checkbox" id="test1" name="test1" />
+                        <label for="sort-filter">Sort by: </label>
+                        <select name="sortBy" id="sort-filter" form="result-filter-wrapper">
+                            <option value="name">Name</option>
+                            <option value="academicStanding">Academic Standing</option>
+                            <option value="workTime">Work Time</option>
+                        </select>
                     </div>
-                    <div class="result-filter">
-                        <label for="test2">filter condition placeholder: </label>
-                        <input type="checkbox" class="filter-checkbox" id="test2" name="test2" />
-                    </div>
-                    <button id="filter-apply">Apply</button>
-                </div>
+                    <input type="submit" value="Apply" id="filter-apply" />
+                </form>
                 <div id="add-new-post-wrapper">
                     <p>Cannot find interested ones?</p>
                     <button id="add-new-post">Post Yours!</button>
                     <form id="new-post-form" class="collapse">
-                        <div class="new-post-input-wrapper">
-                            <label for="new-post-class-title">Class Title: </label>
-                            <input type="text" id="new-post-class-title" name="classTitle"/>
-                        </div>
-                        <div class="new-post-input-wrapper">
-                            <label for="new-post-section">Section: </label>
-                            <input type="text" id="new-post-section" name="section" />
-                        </div>
-                        <div class="new-post-input-wrapper">
-                            <label for="new-post-quiz-section">Quiz Section (only one): </label>
-                            <input type="text" id="new-post-quiz-section" placeholder="Optional" name="quizSection" />
-                        </div>
-                        <div class="new-post-input-wrapper">
-                            <label for="new-post-name">Name: </label>
-                            <input type="text" id="new-post-name" name="name" />
-                        </div>
-                        <div class="new-post-input-wrapper">
-                            <label for="new-post-class-standing">Class Standing: </label>
-                            <input type="text" id="new-post-class-standing" name="classStanding" />
-                        </div>
-                        <div class="new-post-input-wrapper">
-                            <label for="new-post-major">Major (split by ","): </label>
-                            <input type="text" id="new-post-major" placeholder="Optional" name="major" />
-                        </div>
-                        <div class="new-post-input-wrapper">
-                            <label for="new-post-email">Email: </label>
-                            <input type="text" id="new-post-email" name="email"/>
+                        <div>
+                            <div class="new-post-input-wrapper">
+                                <label for="new-post-class-title">Class Title: </label>
+                                <input type="text"
+                                       pattern="[A-Z]{3,5}[0-9]{3}"
+                                       required="required"
+                                       placeholder="INFO340"
+                                       id="new-post-class-title" name="classTitle"/>
+                            </div>
+                            <div class="new-post-input-wrapper">
+                                <label for="new-post-section">Section: </label>
+                                <input type="text" id="new-post-section" name="section" />
+                            </div>
+                            <div class="new-post-input-wrapper">
+                                <label for="new-post-quiz-section">Quiz Section (only one): </label>
+                                <input type="text" id="new-post-quiz-section" placeholder="Optional" name="quizSection" />
+                            </div>
+                            <div class="new-post-input-wrapper">
+                                <label for="new-work-time">Work Time: </label>
+                                <input title="From HH:MM To HH:MM"
+                                       required="required"
+                                       pattern="[0-2][0-9]:[0-6][0-6]-[0-2][0-9]:[0-6][0-6]"
+                                       placeholder="HH:MM-HH:MM" type="text" id="new-work-time" name="workTime"/>
+                            </div>
+                            <div class="new-post-input-wrapper">
+                                <label for="new-post-name">Name: </label>
+                                <input required="required" title="FirstName LastName"
+                                       type="text" id="new-post-name" name="name" />
+                            </div>
+                            <div class="new-post-input-wrapper">
+                                <label for="new-post-class-standing">Class Standing: </label>
+                                <input required="required" title="Academic Standing (Like Junior)"
+                                        type="text" id="new-post-class-standing" name="classStanding" />
+                            </div>
+                            <div class="new-post-input-wrapper">
+                                <label for="new-post-major">Major (split by ","): </label>
+                                <input type="text" id="new-post-major" placeholder="Optional" name="major" />
+                            </div>
+                            <div class="new-post-input-wrapper">
+                                <label for="new-post-email">Email: </label>
+                                <input type="email" id="new-post-email"
+                                       required="required" name="email"/>
+                            </div>
                         </div>
                         <input type="submit" value="Post" id="post-new-post" />
                     </form>
