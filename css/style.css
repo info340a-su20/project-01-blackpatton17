@@ -7,13 +7,9 @@
     display: none;
 }
 
-input:hover {
-
-}
-
 body {
     margin: 0;
-    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, serif;
     font-size: 0.8rem;
     font-weight: 500;
     line-height: 1.5;
