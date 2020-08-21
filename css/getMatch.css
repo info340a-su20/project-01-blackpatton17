@@ -157,8 +157,9 @@ h2 {
     margin-bottom: 10px;
 }
 
-#new-post-form input {
+#new-post-form input, #new-post-form select {
     height: 30px;
+    font-size: 12px;
 }
 
 #post-new-post {

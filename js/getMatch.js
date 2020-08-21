@@ -25,7 +25,7 @@ const STATE = {
       start:"",
       end:"",
     },
-    sortBy:"",
+    sortBy:"name",
   }
 };
 
@@ -71,7 +71,12 @@ const initInput = () => {
 
   bindFilterWithState();
 
-  qs("#result-filter-wrapper").addEventListener("submit", e => handleNewSearch(e));
+  qs("#result-filter-wrapper").addEventListener("submit", e => {
+    e.preventDefault();
+    if (STATE.search.classTitle !== "") {
+      handleNewSearch(e);
+    }
+  });
 
   qs('#add-new-post').addEventListener("click", () => openNewPostForm());
 };
@@ -174,6 +179,7 @@ const genResultComponent = (data) => {
   let majorContent = data.major.length < 1 ? "Unknown" : data.major.reduce(((previousValue, currentValue) => {
     return previousValue + ", " + currentValue;
   }));
+  if (majorContent === "") majorContent = "Unknown";
   resultMajor.textContent = "Major: " + majorContent;
   resultSpecInfo.appendChild(resultMajor);
 
@@ -247,9 +253,9 @@ const handleFilter = (data) => {
       case "name":
         return prev[STATE.filter.sortBy] < next[STATE.filter.sortBy] ? -1 : (prev[STATE.filter.sortBy]
         === next[STATE.filter.sortBy] ? 0: 1);
-      case "academicStanding":
-        return prev[STATE.filter.sortBy] < next[STATE.filter.sortBy] ? 1 : (prev[STATE.filter.sortBy]
-        === next[STATE.filter.sortBy] ? 0: -1);
+      default:
+        return prev[STATE.filter.sortBy] < next[STATE.filter.sortBy] ? -1 : (prev[STATE.filter.sortBy]
+        === next[STATE.filter.sortBy] ? 0: 1);
     }
   });
   return output;
