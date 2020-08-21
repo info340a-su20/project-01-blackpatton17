@@ -71,13 +71,6 @@ nav img {
     color: #FF868686;
 }
 
-@media (min-width: 768px) {
-    #link-tab-wrapper a {
-        margin-right: 10px;
-        font-size: 14.5pt;
-    }
-}
-
 #home-header{
     background-image: url("../img/home_header.jpg");
     background-size: cover;
@@ -112,4 +105,11 @@ footer {
 
 .footer {
     line-height: 5%;
+}
+
+@media (min-width: 768px) {
+    #link-tab-wrapper a {
+        margin-right: 10px;
+        font-size: 14.5pt;
+    }
 }

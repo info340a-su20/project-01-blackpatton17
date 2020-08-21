@@ -109,8 +109,14 @@
                             </div>
                             <div class="new-post-input-wrapper">
                                 <label for="new-post-class-standing">Class Standing: </label>
-                                <input required="required" title="Academic Standing (Like Junior)"
-                                        type="text" id="new-post-class-standing" name="classStanding" />
+
+                                <select  id="new-post-class-standing" name="classStanding" form="new-post-form">
+                                    <option value="Freshman">Freshman</option>
+                                    <option value="Sophomore">Sophomore</option>
+                                    <option value="Junior">Junior</option>
+                                    <option value="Senior">Senior</option>
+                                    <option value="Graduate">Graduate</option>
+                                </select>
                             </div>
                             <div class="new-post-input-wrapper">
                                 <label for="new-post-major">Major (split by ","): </label>

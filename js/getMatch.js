@@ -11,7 +11,7 @@ const STATE = {
     section: "",
     quizSection: "",
     name: "",
-    classStanding: "",
+    classStanding: "Freshman",
     major: [""],
     Email: "",
     workTimeInterval: {
@@ -32,17 +32,14 @@ const STATE = {
 const DATABASE_API_ENDPOINT = "https://mpvl0452tj.execute-api.us-east-1.amazonaws.com/Prod/query";
 
 window.addEventListener("load", () => init());
-window.addEventListener("close", () => {
-  window.localStorage.clear();
-})
 
 // initialize the page
-const init = async () => {
+const init = ()=> {
   initInput();
-  await setInitSearch();
+  setInitSearch();
 };
 
-// bind input with goble const state
+// bind input with global const state
 const initInput = () => {
   let searchInputs = qsa('.search-condition input');
   for (let input of searchInputs) {
@@ -66,6 +63,10 @@ const initInput = () => {
       });
     }
   }
+  let addNewPostFormSelect = qs('#new-post-form select');
+  addNewPostFormSelect.addEventListener('change', e => {
+    STATE.newPost['classStanding'] = e.target.value;
+  });
   qs("#new-post-form").addEventListener("submit", e => handleNewPost(e));
 
   bindFilterWithState();
@@ -81,19 +82,22 @@ const handleNewPost = (e) => {
   if (STATE.newPost.name.classStanding === 0) {
     alert("You have to enter your name! (e.g.: Junior)");
   } else {
-    setQueryFetcher({
+    let data = {
       classTitle: STATE.newPost.classTitle,
       name: STATE.newPost.name,
       classStanding: STATE.newPost.classStanding,
       major: STATE.newPost.major,
       avatar: "placeholder",
       workTime: STATE.newPost.workTimeInterval
-    }).then(async response => {
+    };
+    setQueryFetcher(data).then(response => {
       qs('#new-post-form').classList.toggle('collapse');
       qs('#add-new-post-wrapper p').classList.toggle('collapse');
       qs('#add-new-post-wrapper p').innerText = response['message'];
-      await renderSearchResult();
-    })
+      if (STATE.newPost.classTitle === STATE.search.classTitle) {
+        qs("#search-result-content").appendChild(genResultComponent(data));
+      }
+    });
   }
 };
 
@@ -102,7 +106,7 @@ const setQueryFetcher = (data) => {
   return fetch(DATABASE_API_ENDPOINT, {method: 'POST', body: JSON.stringify(data)})
       .then(response => {
         return response.json();
-      })
+      });
 };
 
 // callback function for submit a new search, re-render search result components
@@ -112,40 +116,35 @@ const handleNewSearch = (e) => {
 };
 
 // render search result components
-const renderSearchResult = async () => {
+const renderSearchResult = () => {
   qs("#search-result-content").innerHTML = null;
-  let result = await getQueryFetcher();
-  result = handleFilter(result);
-
-  if (result.length === 0) {
-    let output = crNewEl('p');
-    output.innerText = "No one has posted a request yet."
-    qs("#search-result-content").appendChild(output);
-  } else {
-    result.forEach(x => {
-      qs("#search-result-content").appendChild(genResultComponent(x));
+  return getQueryFetcher()
+    .then(result => {
+      result = handleFilter(result);
+      if (result.length === 0) {
+        let output = crNewEl('p');
+        output.innerText = "No one has posted a request yet.";
+        qs("#search-result-content").appendChild(output);
+      } else {
+        result.forEach(x => {
+          qs("#search-result-content").appendChild(genResultComponent(x));
+        });
+      }
     });
-  }
-
 };
 
 // fetch for send query for get data from server
-const getQueryFetcher = async () => {
+const getQueryFetcher = () => {
   qs('#ajax-loading').classList.toggle('collapse');
   let finalURl = `${DATABASE_API_ENDPOINT}?classTitle=${STATE.search.classTitle}`;
-  let output = [];
-  await fetch(finalURl)
+  return fetch(finalURl)
       .then(response => {
         return response.json();
       })
       .then(response => {
-        let result = response.result;
-        result.forEach(x => {
-          output.push(x);
-        });
         qs('#ajax-loading').classList.toggle('collapse');
+        return response.result;
       });
-  return output;
 };
 
 // generate new search result component DOM
@@ -167,13 +166,14 @@ const genResultComponent = (data) => {
   resultSpecInfo.appendChild(resultName);
 
   let resultStanding = crNewEl('p');
-  resultStanding.textContent = "Academic Standing: " + data['academicStanding'];
+  resultStanding.textContent = "Academic Standing: " + (data['academicStanding'] ?
+    data['academicStanding']: (data['classStanding'] ? data['classStanding'] : 'Unknown'));
   resultSpecInfo.appendChild(resultStanding);
 
   let resultMajor = crNewEl('p');
   let majorContent = data.major.length < 1 ? "Unknown" : data.major.reduce(((previousValue, currentValue) => {
     return previousValue + ", " + currentValue;
-  }))
+  }));
   resultMajor.textContent = "Major: " + majorContent;
   resultSpecInfo.appendChild(resultMajor);
 
@@ -222,7 +222,7 @@ const bindFilterWithState = () => {
   qs('#sort-filter').addEventListener('change', (e) => {
     STATE.filter.sortBy = e.target.value;
   });
-}
+};
 
 // callback function for filtering search result
 const handleFilter = (data) => {
@@ -255,15 +255,15 @@ const handleFilter = (data) => {
   return output;
 };
 
-const setInitSearch = async () => {
+const setInitSearch = () => {
   let urlString = window.location.href;
   let url = new URL(urlString);
   let classTitle = url.searchParams.get("classTitle");
-  if (!!classTitle) {
+  if (classTitle) {
     STATE.search.classTitle = classTitle;
-    await renderSearchResult();
+    return renderSearchResult().catch(error => {console.error(error)});
   }
-}
+};
 
 /****************** helper functions *********************/
 
@@ -277,4 +277,4 @@ const qsa = (el) => {
 
 const crNewEl = (el) => {
   return document.createElement(el);
-}
+};

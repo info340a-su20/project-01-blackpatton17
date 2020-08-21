@@ -11,29 +11,6 @@
     border-bottom: solid 1px grey;
 }
 
-
-@media (min-width: 996px) {
-    main {
-        display: flex;
-    }
-
-    #simple-info-wrapper {
-        width: 30%;
-        height: 300px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 20px;
-        margin-right: 20px;
-        border-bottom: 0;
-        border-right: solid 1px grey;
-    }
-
-    #content-wrapper {
-        width: 60%;
-    }
-}
-
 #avatar {
     width: 100px;
     height: auto;
@@ -63,4 +40,26 @@
 
 .class-card:hover {
     opacity: 0.8;
+}
+
+@media (min-width: 996px) {
+    main {
+        display: flex;
+    }
+
+    #simple-info-wrapper {
+        width: 30%;
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+        margin-right: 20px;
+        border-bottom: 0;
+        border-right: solid 1px grey;
+    }
+
+    #content-wrapper {
+        width: 60%;
+    }
 }
