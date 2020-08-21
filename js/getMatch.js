@@ -154,7 +154,7 @@ const genResultComponent = (data) => {
 
   // create img and append on the result div
   let resultImg = crNewEl('img');
-  resultImg.src = data.avatar === 'placeholder' ? '../img/avatar-placeholder.png' : data.avatar;
+  resultImg.src = data.avatar === 'placeholder' ? './img/avatar-placeholder.png' : data.avatar;
   resultImg.alt = data.name;
   resultImg.classList.add("result-avatar");
   resultDiv.appendChild(resultImg);
