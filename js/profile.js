@@ -2,6 +2,7 @@
 
 window.addEventListener("load", () => {init()});
 
+// make card can redirect to the search page
 const init = () => {
     qsa("#class-card-wrapper").forEach(x => {
         x.addEventListener("click", (e) => {
