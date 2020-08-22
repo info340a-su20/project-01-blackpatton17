@@ -44,8 +44,12 @@ const initInput = () => {
   let searchInputs = qsa('.search-condition input');
   for (let input of searchInputs) {
     input.addEventListener("input", (e) => {
-      STATE.search[e.target.name] = input.name === 'major' ?
-          (e.target.value.split(",") ? e.target.value.split(",") :[""]) : e.target.value;
+      if (e.target.name === "classTitle") {
+        STATE.search[e.target.name] = e.target.value.replace(" ", "");
+      } else {
+        STATE.search[e.target.name] = input.name === 'major' ?
+            (e.target.value.split(",") ? e.target.value.split(",") :[""]) : e.target.value;
+      }
     })
   }
   qs(".search-condition").addEventListener("submit", e => handleNewSearch(e));
@@ -58,7 +62,11 @@ const initInput = () => {
           STATE.newPost['workTimeInterval']['start'] = e.target.value.split('-')[0];
           STATE.newPost['workTimeInterval']['end'] = e.target.value.split('-')[1];
         } else {
-          STATE.newPost[e.target.name] = input.name === 'major' ? e.target.value.split(",") : e.target.value;
+          if (e.target.name === "classTitle") {
+            STATE.newPost[e.target.name] = e.target.value.replace(" ", "");
+          } else {
+            STATE.newPost[e.target.name] = input.name === 'major' ? e.target.value.split(",") : e.target.value;
+          }
         }
       });
     }
@@ -195,6 +203,10 @@ const genResultComponent = (data) => {
   sendMsgBtn.textContent = "Send a Message";
   sendMsgBtn.classList.add('send-message');
   sendMsgBtn.addEventListener('click', (e) => handleSendMsg(e));
+  let tooltiptext = crNewEl('span');
+  tooltiptext.textContent = "Send invitation to this person via your user email";
+  tooltiptext.classList.add("tooltiptext");
+  sendMsgBtn.appendChild(tooltiptext);
   resultDiv.appendChild(sendMsgBtn);
   return resultDiv;
 };
