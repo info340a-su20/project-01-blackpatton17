@@ -40,6 +40,6 @@
   "dependencies": {
     "jest": "^26.4.1",
     "firebase": "^7.2.3",
-    "firebase-admin": "^9.1.0"
+    "firebase-admin": "^11.4.1"
   }
 }
